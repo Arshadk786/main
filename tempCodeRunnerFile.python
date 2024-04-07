@@ -1,0 +1,14 @@
+from lightfm import LightFM
+from lightfm.datasets import fetch_movielens
+
+# Fetch the MovieLens dataset
+data = fetch_movielens()
+
+# Create and train the model
+model = LightFM(loss='bpr')
+model.fit(data['train'])
+
+# Recommend items for a user
+user_ids = [0]  # Example user IDs
+n_items = data['item_features'].shape[0]  # Total number of items
+scores = model.predict(user_ids, range(n_items))
