@@ -34,7 +34,7 @@ def load_news_data():
     except Exception as e:
         raise e
     
-def recommend_articles(user_activities, num_recommendations=10):
+def recommend_articles(user_activities, num_recommendations=30):
     try:
         df = load_news_data()
 
@@ -110,10 +110,10 @@ def recommend_news(request):
     if request.method == 'POST':
         # data = json.loads(request.body)
         data = json.loads(request.body)
-        print(type(data))
+        # print(type(data))
         # print(data)
-        user_activities = data
-        print(type(user_activities))
+        user_activities = set(data)
+        # print(type(user_activities))
         print(user_activities)
         # user_activities = request.POST.getlist("user_activities")
         # user_activities = request.getlist('user_activities[]',[])
@@ -152,10 +152,14 @@ def RecommendAPI(request):
         recomm=Recommend.objects.get(id=ac.pk)
         recomm.title.add(*titledetails)
         recomm.save()
+        print(recomm)
         return Response({"success":"Successfully created"})
                 
     else:
         return Response({"error":"Error"})
+    
+    
+    
 @api_view(["GET"])
 @permission_classes([IsAuthenticated]) 
 def getDetails(request):
